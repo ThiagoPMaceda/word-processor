@@ -18,4 +18,14 @@ defmodule ShopnomixWeb.WordProcessorController do
       render(conn, :show, word: word)
     end
   end
+
+  def replace(conn, %{
+        "text" => text,
+        "substring" => substring,
+        "text_to_replace" => text_to_replace
+      }) do
+    with word <- WordProcessor.replace(text, substring, text_to_replace) do
+      render(conn, :show, word: word)
+    end
+  end
 end

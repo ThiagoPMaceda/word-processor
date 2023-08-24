@@ -23,4 +23,19 @@ defmodule ShopnomixWeb.WordProcessorControllerTest do
       assert response == %{"word" => "Lionel Messi"}
     end
   end
+
+  describe "POST api/replace [:replace]" do
+    test "Replace a given substring with another string of characters." do
+      params = %{
+        text: "drink juice",
+        substring: "juice",
+        text_to_replace: "soda"
+      }
+
+      conn = post(build_conn(), "/api/replace", params)
+      response = json_response(conn, 200)
+
+      assert response == %{"word" => "drink soda"}
+    end
+  end
 end

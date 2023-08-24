@@ -27,6 +27,16 @@ defmodule Shopnomix.WordProcessor do
     GenServer.call(__MODULE__, {:delete, text, start_position, end_position})
   end
 
+  @spec replace(
+          text :: String.t(),
+          text_to_be_replace :: String.t(),
+          text_to_replace_with :: String.t()
+        ) ::
+          {:ok, String.t()}
+  def replace(text, text_to_be_replaced, text_to_replace_with) do
+    GenServer.call(__MODULE__, {:replace, text, text_to_be_replaced, text_to_replace_with})
+  end
+
   @impl true
   def init(args) do
     {:ok, args}
@@ -47,5 +57,12 @@ defmodule Shopnomix.WordProcessor do
         String.slice(text, end_position, String.length(text) - 1)
 
     {:reply, deleted_text, state}
+  end
+
+  @impl true
+  def handle_call({:replace, text, text_to_be_replaced, text_to_replace_with}, _from, state) do
+    replaced_text = String.replace(text, text_to_be_replaced, text_to_replace_with)
+
+    {:reply, replaced_text, state}
   end
 end
