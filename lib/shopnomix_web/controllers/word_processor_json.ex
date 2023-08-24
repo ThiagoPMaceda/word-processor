@@ -1,5 +1,5 @@
 defmodule ShopnomixWeb.WordProcessorJSON do
-  def insert(%{word: word}) do
+  def show(%{word: word}) do
     %{
       word: word
     }

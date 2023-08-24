@@ -18,4 +18,20 @@ defmodule Shopnomix.WordProcessorTest do
 
     assert results == ["Hello, beautiful world!", "Welcome to amazing Elixir"]
   end
+
+  test "deletes text at the specified range" do
+    deleted_text = WordProcessor.delete("appdeletele", 4, 9)
+    assert deleted_text == "apple"
+  end
+
+  test "concurrent deletions" do
+    concurrent_deletions = [
+      Task.async(fn -> WordProcessor.delete("orblueange", 3, 6) end),
+      Task.async(fn -> WordProcessor.delete("airpcarlane", 5, 7) end)
+    ]
+
+    results = Enum.map(concurrent_deletions, fn task -> Task.await(task) end)
+
+    assert results == ["orange", "airplane"]
+  end
 end
