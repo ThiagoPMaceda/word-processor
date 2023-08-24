@@ -1,4 +1,4 @@
-# Shopnomix
+# Word Processor 
 
 This is a project that receive words and perform operations in them, there are four operations available and you can perform this operations through a HTTP request, all calls are POST.
 
