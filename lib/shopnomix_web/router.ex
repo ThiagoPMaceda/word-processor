@@ -11,5 +11,6 @@ defmodule ShopnomixWeb.Router do
     post("/insert", WordProcessorController, :insert)
     post("/delete", WordProcessorController, :delete)
     post("/replace", WordProcessorController, :replace)
+    post("/search", WordProcessorController, :search)
   end
 end

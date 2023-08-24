@@ -56,4 +56,28 @@ defmodule Shopnomix.WordProcessorTest do
       assert results == ["I like rainy days", "Drink water"]
     end
   end
+
+  describe "search" do
+    test "returns index if substring is found in index." do
+      index = WordProcessor.search("firstssts", "sts")
+      assert index == 3
+    end
+
+    test "returns -1 if substring is not found." do
+      index = WordProcessor.search("firstssts", "not found")
+      assert index == -1
+    end
+
+    test "concurrent searches" do
+      concurrent_searches = [
+        Task.async(fn -> WordProcessor.search("search pattern search pattern", "pattern") end),
+        Task.async(fn -> WordProcessor.search("red blue yellow blue", "blue") end),
+        Task.async(fn -> WordProcessor.search("not", "found") end)
+      ]
+
+      results = Enum.map(concurrent_searches, fn task -> Task.await(task) end)
+
+      assert results == [7, 4, -1]
+    end
+  end
 end

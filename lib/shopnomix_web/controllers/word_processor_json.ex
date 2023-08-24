@@ -4,4 +4,10 @@ defmodule ShopnomixWeb.WordProcessorJSON do
       word: word
     }
   end
+
+  def search(%{index: index}) do
+    %{
+      index: index
+    }
+  end
 end

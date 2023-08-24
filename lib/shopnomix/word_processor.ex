@@ -37,6 +37,15 @@ defmodule Shopnomix.WordProcessor do
     GenServer.call(__MODULE__, {:replace, text, text_to_be_replaced, text_to_replace_with})
   end
 
+  @spec search(
+          text :: String.t(),
+          substring :: String.t()
+        ) ::
+          {:ok, Int.t()}
+  def search(text, substring) do
+    GenServer.call(__MODULE__, {:search, text, substring})
+  end
+
   @impl true
   def init(args) do
     {:ok, args}
@@ -64,5 +73,19 @@ defmodule Shopnomix.WordProcessor do
     replaced_text = String.replace(text, text_to_be_replaced, text_to_replace_with)
 
     {:reply, replaced_text, state}
+  end
+
+  @impl true
+  def handle_call({:search, text, substring}, _from, state) do
+    case String.contains?(text, substring) do
+      true ->
+        splitted_string = String.split(text, substring)
+        index = String.length(List.first(splitted_string))
+
+        {:reply, index, state}
+
+      false ->
+        {:reply, -1, state}
+    end
   end
 end

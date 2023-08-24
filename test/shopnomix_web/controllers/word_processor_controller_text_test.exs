@@ -38,4 +38,30 @@ defmodule ShopnomixWeb.WordProcessorControllerTest do
       assert response == %{"word" => "drink soda"}
     end
   end
+
+  describe "POST api/search [:search]" do
+    test "Find the first occurrence of a given substring in the text." do
+      params = %{
+        text: "occurence first second first",
+        substring: "first"
+      }
+
+      conn = post(build_conn(), "/api/search", params)
+      response = json_response(conn, 200)
+
+      assert response == %{"index" => 10}
+    end
+
+    test "return -1 if substring is not found in given text." do
+      params = %{
+        text: "word",
+        substring: "not found"
+      }
+
+      conn = post(build_conn(), "/api/search", params)
+      response = json_response(conn, 200)
+
+      assert response == %{"index" => -1}
+    end
+  end
 end

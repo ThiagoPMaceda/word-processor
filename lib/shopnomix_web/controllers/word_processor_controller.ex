@@ -28,4 +28,10 @@ defmodule ShopnomixWeb.WordProcessorController do
       render(conn, :show, word: word)
     end
   end
+
+  def search(conn, %{"text" => text, "substring" => substring}) do
+    with index <- WordProcessor.search(text, substring) do
+      render(conn, :search, index: index)
+    end
+  end
 end
